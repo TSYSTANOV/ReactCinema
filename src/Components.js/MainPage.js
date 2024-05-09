@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { API_component } from "../Utils/Utils";
 import { TopTrandingContent } from "./TopTrandingContent";
 import { ListOfContent } from "./ListOfContent";
+import { handleOpen } from "../redux/BurgerMenuSlice";
+import { useDispatch } from "react-redux";
+
 function MainPage() {
+  const dispatch = useDispatch()
   const [page, setPage] = useState(1);
   const [topTranding, setTopTranding] = useState([]);
   const [listOfContent, setListOfContent] = useState([]);
@@ -16,7 +20,7 @@ function MainPage() {
         setListOfContent([...listOfContent, ...results]);
       }
     }
-
+    dispatch(handleOpen())
     getData();
   }, [page]);
   return (
@@ -25,6 +29,7 @@ function MainPage() {
       {listOfContent.length > 0 && (
         <ListOfContent list={listOfContent} setPage={setPage} />
       )}
+
     </>
   );
 }

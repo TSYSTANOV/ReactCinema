@@ -7,13 +7,16 @@ function Search() {
   const { searchParam } = useParams();
   const [listContent, setListContent] = useState([]);
   const [modifiedList, setModifiedList] = useState([]);
-  const [loadMore, setLoadMore] = useState(false);
+  const [loadMore, setLoadMore] = useState(true);
   useEffect(() => {
     async function getData() {
       const { results } = await API_component.getSearch(searchParam);
       if (results.length > 0) {
-        setListContent(results);
+        setListContent([...results]);
+      }else{
+         setModifiedList([]);
       }
+      setLoadMore(false);
     }
     getData();
   }, [searchParam]);
@@ -23,30 +26,40 @@ function Search() {
         return new Promise((resolve, reject) => {
           let image = new Image();
           image.src =
-            `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` + src;
+            `https://www.themoviedb.org/t/p/w600_and_h900_bestv2` + src;
           image.onload = () => {
             resolve(image.src);
           };
         });
       }
-      const data = await Promise.all(
-        array.map(async (item) => {
-          const res = await getImages(item.poster_path);
-          const videosPreview = await API_component.getVideoPreview(
+       let data = await Promise.all(
+       array.map(async (item) => {
+          if(item.media_type !== 'person'){
+            if(item.poster_path){
+              const res = await getImages(item.poster_path);
+              item.poster_path = res;                        
+            }
+            
+          const videosPreview =  await API_component.getVideoPreview(
             item.media_type,
             item.id
-          );
-          item.videosPreview = videosPreview.results[0]
+          )
+          item.videosPreview =  videosPreview.results[0]
             ? `https://youtu.be/${videosPreview.results[0].key}`
             : "";
-          item.poster_path = res;
           return item;
+          }else{
+            return item
+          }
         })
-      );
+      )  
+      data = data.filter((data)=>data.media_type !== 'person')
       setModifiedList(data);
       setLoadMore(false);
     }
     if (listContent.length > 0) {
+      setModifiedList([])
+      setLoadMore(true);
       loadImg(listContent);
     }
   }, [listContent]);
@@ -60,14 +73,13 @@ function Search() {
           <span className="other-films__title-add">на TS Cinema</span>
         </h2>
       </div>
-      {modifiedList.length > 0 ? (
+      {loadMore && <Spinner/>}
+      {modifiedList.length > 0 && (
         <ul className="other-films__list">
           {modifiedList.map((item) => {
             return <ContentItem key={item.id} {...item} />;
           })}
         </ul>
-      ) : (
-        <Spinner />
       )}
     </section>
   );

@@ -1,14 +1,19 @@
+import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import { handleOpen } from "../redux/BurgerMenuSlice";
 
 function Header() {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   function handleSubmitForm(e) {
     e.preventDefault();
     const value = e.target.search.value;
     e.target.search.value = "";
     e.target.search.blur();
-    console.log(value);
     navigate(`search/${value}`);
+  }
+  function menuHandler(){
+    dispatch(handleOpen())
   }
   return (
     <header className="header">
@@ -28,7 +33,7 @@ function Header() {
           />
         </form>
 
-        <button className="header__burger-btn" aria-label="открыть меню">
+        <button className="header__burger-btn" aria-label="открыть меню" onClick={menuHandler}> 
           <svg
             className="header__burger-svg"
             width="40"
