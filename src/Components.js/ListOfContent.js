@@ -12,10 +12,11 @@ function ListOfContent(props) {
         return new Promise((resolve, reject) => {
           let image = new Image();
           image.src =
-            `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` + src;
-          image.onload = () => {
+            `https://www.themoviedb.org/t/p/w600_and_h900_bestv2` + src;
+          image.addEventListener("load", () => {
+            console.log("load");
             resolve(image.src);
-          };
+          });
         });
       }
       const data = await Promise.all(
@@ -25,10 +26,10 @@ function ListOfContent(props) {
             item.media_type,
             item.id
           );
+          item.poster_path = res;
           item.videosPreview = videosPreview.results[0]
             ? `https://youtu.be/${videosPreview.results[0].key}`
             : "";
-          item.poster_path = res;
           return item;
         })
       );

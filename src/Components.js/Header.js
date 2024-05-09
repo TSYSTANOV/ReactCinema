@@ -1,9 +1,12 @@
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { handleOpen } from "../redux/BurgerMenuSlice";
+import { useEffect, useRef } from "react";
 
 function Header() {
-  const dispatch = useDispatch()
+  const headerRef = useRef();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   function handleSubmitForm(e) {
     e.preventDefault();
@@ -12,11 +15,33 @@ function Header() {
     e.target.search.blur();
     navigate(`search/${value}`);
   }
-  function menuHandler(){
-    dispatch(handleOpen())
+  function menuHandler() {
+    dispatch(handleOpen());
   }
+  function smoothHeader() {
+    let param = 0;
+    let direction = null;
+    const header = headerRef.current;
+    window.addEventListener("scroll", (e) => {
+      if (param > window.scrollY) {
+        direction = "up";
+      } else {
+        direction = "down";
+      }
+      param = window.scrollY;
+      if (direction === "down" && param > 500) {
+        header.style.top = -header.scrollHeight + "px";
+      } else {
+        header.style.top = "0px";
+      }
+    });
+  }
+
+  useEffect(() => {
+    smoothHeader();
+  }, []);
   return (
-    <header className="header">
+    <header className="header" ref={headerRef}>
       <div className="container header__container">
         <NavLink to="/">
           <p className="header__logo">
@@ -33,7 +58,11 @@ function Header() {
           />
         </form>
 
-        <button className="header__burger-btn" aria-label="открыть меню" onClick={menuHandler}> 
+        <button
+          className="header__burger-btn"
+          aria-label="открыть меню"
+          onClick={menuHandler}
+        >
           <svg
             className="header__burger-svg"
             width="40"

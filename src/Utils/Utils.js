@@ -34,8 +34,6 @@ class API {
     }
   }
   getData(mediaType, type, page = 1) {
-    console.log(mediaType)
-    console.log(type)
     return fetch(
       `https://api.themoviedb.org/3/${mediaType}/${type}?language=${this.language}&page=${page}`,
       this.options

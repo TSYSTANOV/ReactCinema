@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-const BurgerMenuSlice= createSlice({
-    name:'burgerMenu',
-    initialState:{
-        open:false
+const BurgerMenuSlice = createSlice({
+  name: "burgerMenu",
+  initialState: {
+    open: false,
+  },
+  reducers: {
+    handleOpen: (state) => {
+      state.open = !state.open;
     },
-    reducers:{
-        handleOpen:(state)=>{
-            state.open = !state.open
-        }
-    }
-})
-export const {handleOpen} = BurgerMenuSlice.actions
-export default BurgerMenuSlice.reducer
+    closeMenu: (state) => {
+      state.open = false;
+    },
+  },
+});
+export const { handleOpen, closeMenu } = BurgerMenuSlice.actions;
+export default BurgerMenuSlice.reducer;

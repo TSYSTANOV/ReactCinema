@@ -169,7 +169,7 @@ input[type="search" i]::-webkit-search-cancel-button {
   width: 104px;
   height: 72px;
   background-color: var(--color-second);
-  background-image: url("../img/play.svg");
+  background-image: url("./img/play.svg");
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 6px;
@@ -262,32 +262,32 @@ input[type="search" i]::-webkit-search-cancel-button {
 }
 @font-face {
   font-family: Inter;
-  src: url("../fonts/Inter-Regular.woff2") format("woff2"),
-    url("../fonts/Inter-Regular.woff") format("woff");
+  src: url("./fonts/Inter-Regular.woff2") format("woff2"),
+    url("./fonts/Inter-Regular.woff") format("woff");
   font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
   font-family: Inter;
-  src: url("../fonts/Inter-Bold.woff2") format("woff2"),
-    url("../fonts/Inter-Bold.woff") format("woff");
+  src: url("./fonts/Inter-Bold.woff2") format("woff2"),
+    url("./fonts/Inter-Bold.woff") format("woff");
   font-weight: 700;
   font-display: swap;
 }
 
 @font-face {
   font-family: Raleway;
-  src: url("../fonts/Raleway-Bold.woff2") format("woff2"),
-    url("../fonts/Raleway-Bold.woff") format("woff");
+  src: url("./fonts/Raleway-Bold.woff2") format("woff2"),
+    url("./fonts/Raleway-Bold.woff") format("woff");
   font-weight: 700;
   font-display: swap;
 }
 
 @font-face {
   font-family: Raleway;
-  src: url("../fonts/Raleway-ExtraBold.woff2") format("woff2"),
-    url("../fonts/Raleway-ExtraBold.woff") format("woff");
+  src: url("./fonts/Raleway-ExtraBold.woff2") format("woff2"),
+    url("./fonts/Raleway-ExtraBold.woff") format("woff");
   font-weight: 800;
   font-display: swap;
 }
@@ -394,10 +394,11 @@ input[type="search" i]::-webkit-search-cancel-button {
   position: sticky;
   z-index: 50;
   background-color: var(--color-bg);
-  padding: 5px 0;
+  padding: 15px 0;
   transition: 0.2s;
   top: 0px;
   /* max-height: 10px; */
+  transition: 0.5s;
   overflow: hidden;
 }
 .header__container {
@@ -426,7 +427,7 @@ input[type="search" i]::-webkit-search-cancel-button {
   flex-grow: 1;
   height: 70px;
   padding-left: 60px;
-  background-image: url("../img/search.svg");
+  background-image: url("./img/search.svg");
   background-repeat: no-repeat;
   background-position: left 15px center;
   background-color: var(--color-second);

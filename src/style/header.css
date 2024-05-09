@@ -2,10 +2,11 @@
   position: sticky;
   z-index: 50;
   background-color: var(--color-bg);
-  padding: 5px 0;
+  padding: 10px 0;
   transition: 0.2s;
   top: 0px;
   /* max-height: 10px; */
+  transition: 0.3s;
   overflow: hidden;
 }
 .header__container {
@@ -80,8 +81,8 @@
 .header__burger-btn:active {
   box-shadow: 0 0 3px 2px var(--color-primary);
 }
-.spinner{
-  padding: 100px 0 ;
+.spinner {
+  padding: 100px 0;
 }
 
 @media (max-width: 768px) {

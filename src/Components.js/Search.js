@@ -9,14 +9,17 @@ function Search() {
   const [modifiedList, setModifiedList] = useState([]);
   const [loadMore, setLoadMore] = useState(true);
   useEffect(() => {
+    window.scrollTo(0, 0);
+    setModifiedList([]);
+    setLoadMore(true);
+
     async function getData() {
       const { results } = await API_component.getSearch(searchParam);
       if (results.length > 0) {
         setListContent([...results]);
-      }else{
-         setModifiedList([]);
+      } else {
+        setLoadMore(false);
       }
-      setLoadMore(false);
     }
     getData();
   }, [searchParam]);
@@ -32,48 +35,50 @@ function Search() {
           };
         });
       }
-       let data = await Promise.all(
-       array.map(async (item) => {
-          if(item.media_type !== 'person'){
-            if(item.poster_path){
+      let data = await Promise.all(
+        array.map(async (item) => {
+          if (item.media_type !== "person") {
+            if (item.poster_path) {
               const res = await getImages(item.poster_path);
-              item.poster_path = res;                        
+              item.poster_path = res;
             }
-            
-          const videosPreview =  await API_component.getVideoPreview(
-            item.media_type,
-            item.id
-          )
-          item.videosPreview =  videosPreview.results[0]
-            ? `https://youtu.be/${videosPreview.results[0].key}`
-            : "";
-          return item;
-          }else{
-            return item
+
+            const videosPreview = await API_component.getVideoPreview(
+              item.media_type,
+              item.id
+            );
+            item.videosPreview = videosPreview.results[0]
+              ? `https://youtu.be/${videosPreview.results[0].key}`
+              : "";
+            return item;
+          } else {
+            return item;
           }
         })
-      )  
-      data = data.filter((data)=>data.media_type !== 'person')
+      );
+      data = data.filter((data) => data.media_type !== "person");
       setModifiedList(data);
       setLoadMore(false);
     }
     if (listContent.length > 0) {
-      setModifiedList([])
+      setModifiedList([]);
       setLoadMore(true);
       loadImg(listContent);
     }
   }, [listContent]);
+  function titleSearch() {
+    return (
+      <h2 className="other-films__title">
+        {modifiedList.length > 0
+          ? `Результаты поиска по запросу: '${searchParam}'`
+          : `По вашему запросу -${searchParam} ничего не найдено`}
+        <span className="other-films__title-add">на TS Cinema</span>
+      </h2>
+    );
+  }
   return (
     <section className="other-films">
-      <div className="container">
-        <h2 className="other-films__title" data-active-films="" data-type="">
-          {listContent.length > 0
-            ? `Результаты поиска по запросу: '${searchParam}'`
-            : `По вашему запросу -${searchParam} ничего не найдено`}{" "}
-          <span className="other-films__title-add">на TS Cinema</span>
-        </h2>
-      </div>
-      {loadMore && <Spinner/>}
+      <div className="container">{!loadMore ? titleSearch() : <Spinner />}</div>
       {modifiedList.length > 0 && (
         <ul className="other-films__list">
           {modifiedList.map((item) => {

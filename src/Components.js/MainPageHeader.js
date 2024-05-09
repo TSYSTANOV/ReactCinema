@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "./Header";
-import { useState } from "react";
 import { BurgerMenu } from "./BurgerMenu";
+import { Footer } from "./Footer";
 function MainPageHeader() {
   return (
     <>
       <Header />
-      <BurgerMenu/>
+      <BurgerMenu />
       <main>
         <Outlet />
       </main>
+      <Footer />
     </>
   );
 }
